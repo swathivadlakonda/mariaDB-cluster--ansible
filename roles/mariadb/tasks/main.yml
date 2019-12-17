@@ -6,15 +6,6 @@
   apt: 
     name: software-properties-common
     state: latest
-#- name: Install MariaDB repository
-#  apt_repository:
-   # repo: deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/ubuntu trusty main
-  #  state: present
-#- name: Add repository key to the system
- # apt_key: keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
-#- name: Add repositories
- # apt_repository: repo='deb http://mirror.jmu.edu/pub/mariadb/repo/5.5/ubuntu trusty main' state=present
-
 - name: Apt-get update
   apt:
    name: "*"
@@ -40,7 +31,7 @@
 - name: set the sql root password
   mysql_user: 
     name: root
-    password: 1234
+    password: "{{ root_password }}"
     host: localhost
 
 - name: copy .my.cnf file with root password credentials
@@ -48,7 +39,7 @@
 
 - name: set the sql debian-sys-maint password
   mysql_user: user=debian-sys-maint
-              password="swathic"
+              password="{{ debian_sys_maint_password }}"
               host=localhost
 - name: delete anonymous sql server user for localhost
   mysql_user: user=""
